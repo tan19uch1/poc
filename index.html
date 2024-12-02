@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Hints Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Client Hints Demo</h1>
+  <div id="output">
+    <p>Loading client hints...</p>
+  </div>
+
+  <script>
+    (function() {
+      const output = document.getElementById('output');
+
+      if (navigator.userAgentData) {
+        navigator.userAgentData.getHighEntropyValues(['platform', 'platformVersion'])
+          .then(uaData => {
+            output.innerHTML = `
+              <p><strong>Platform:</strong> ${uaData.platform}</p>
+              <p><strong>Platform Version:</strong> ${uaData.platformVersion}</p>
+            `;
+          })
+          .catch(err => {
+            console.error("Error retrieving client hints:", err);
+            output.innerHTML = '<p>Error retrieving client hints. Check the console for details.</p>';
+          });
+      } else {
+        output.innerHTML = '<p>Client Hints are not supported in this browser.</p>';
+      }
+    })();
+  </script>
+</body>
+</html>
